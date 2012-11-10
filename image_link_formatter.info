@@ -1,1 +1,6 @@
 name = Image Link Formatter
+description = Provides an additional formatter for image core field, to be combined with contributed Link field module, to allow display of custom links with custom properties on the image field.
+core = 7.x
+dependencies[] = link
+dependencies[] = image
+package = Fields
