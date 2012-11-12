@@ -1,8 +1,10 @@
 <?php
-/*
+/**
  * @file image_link_formatter.module
- * This file is essentially a copy/paste from the core image module: image.module.
- * Applied the patch and few changes suggested at: http://drupal.org/node/1570072
+ * This file is essentially a copy/paste from the core image module: 
+ * image.module.
+ * Applied the patch and few changes suggested at: 
+ * http://drupal.org/node/1570072
  */
 
 /**
@@ -36,7 +38,7 @@ function image_link_formatter_field_formatter_settings_form($field, $instance, $
     '#options' => $image_styles,
   );
 
-  $link_types = _image_field_link_types($instance);
+  $link_types = image_link_formatter_image_field_link_types($instance);
   $element['image_link'] = array(
     '#title' => t('Link image to'),
     '#type' => 'select',
@@ -69,7 +71,7 @@ function image_link_formatter_field_formatter_settings_summary($field, $instance
     $summary[] = t('Original image');
   }
 
-  $link_types = _image_field_link_types($instance);
+  $link_types = image_link_formatter_image_field_link_types($instance);
   // Display this setting only if image is linked.
   if (isset($link_types[$settings['image_link']])) {
     $summary[] = $link_types[$settings['image_link']];
@@ -94,12 +96,12 @@ function image_link_formatter_field_formatter_view($entity_type, $entity, $field
   }
   elseif ($image_link) {
     if (isset($entity->$image_link)) {
-      //Support for field translations
+      // Support for field translations.
       $language = field_language($entity_type, $entity, $field['field_name']);
       $link_field = $entity->$image_link;
 
       if (isset($link_field[$language])) {
-        $link_values = $link_field[$language];//[$language];
+        $link_values = $link_field[$language];
       }
     }
   }
@@ -111,7 +113,7 @@ function image_link_formatter_field_formatter_view($entity_type, $entity, $field
         'options' => array(),
       );
     }
-    //Handle multiple link with image values
+    // Handle multiple link with image values.
     if (isset($link_values)) {
       if (isset($link_values[$delta]['url'])) {
         $uri = array(
@@ -131,10 +133,10 @@ function image_link_formatter_field_formatter_view($entity_type, $entity, $field
   return $element;
 }
 
- /**
+/**
  * Computes the list of possible link types
  */
-function _image_field_link_types($instance) {
+function image_link_formatter_image_field_link_types($instance) {
   $link_types = array(
     'content' => t('Content'),
     'file' => t('File'),
