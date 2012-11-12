@@ -1,9 +1,9 @@
 <?php
 /**
- * @file image_link_formatter.module
- * This file is essentially a copy/paste from the core image module: 
+ * @file
+ * This file is essentially a copy/paste from the core image module:
  * image.module.
- * Applied the patch and few changes suggested at: 
+ * Applied the patch and few changes suggested at:
  * http://drupal.org/node/1570072
  */
 
@@ -134,7 +134,7 @@ function image_link_formatter_field_formatter_view($entity_type, $entity, $field
 }
 
 /**
- * Computes the list of possible link types
+ * Helper function to compute the list of possible link types.
  */
 function image_link_formatter_image_field_link_types($instance) {
   $link_types = array(
