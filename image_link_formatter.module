@@ -74,7 +74,7 @@ function image_link_formatter_field_formatter_settings_summary($field, $instance
   $link_types = image_link_formatter_image_field_link_types($instance);
   // Display this setting only if image is linked.
   if (isset($link_types[$settings['image_link']])) {
-    $summary[] = $link_types[$settings['image_link']];
+    $summary[] = filter_xss_admin($link_types[$settings['image_link']]);
   }
 
   return implode('<br />', $summary);
