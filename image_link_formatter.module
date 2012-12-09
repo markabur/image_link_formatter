@@ -122,7 +122,9 @@ function image_link_formatter_field_formatter_view($entity_type, $entity, $field
         );
       }
       // If there are more image values than link values unset the link.
-      else unset($uri);
+      else {
+        unset($uri);
+      }
     }
     $element[$delta] = array(
       '#theme' => 'image_formatter',
