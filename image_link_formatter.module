@@ -120,6 +120,10 @@ function image_link_formatter_field_formatter_view($entity_type, $entity, $field
           'path' => $link_values[$delta]['url'],
           'options' => array('attributes' => $link_values[$delta]['attributes']),
         );
+        // Handle query fragment if there is any.
+        if (isset($link_values[$delta]['query']) && count($link_values[$delta]['query'])>0) {
+          $uri['options']['query'] = $link_values[$delta]['query'];
+        }
       }
       // If there are more image values than link values unset the link.
       else {
