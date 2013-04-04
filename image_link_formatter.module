@@ -121,7 +121,7 @@ function image_link_formatter_field_formatter_view($entity_type, $entity, $field
           'options' => array('attributes' => $link_values[$delta]['attributes']),
         );
         // Handle query fragment if there is any.
-        if (isset($link_values[$delta]['query']) && count($link_values[$delta]['query'])>0) {
+        if (!empty($link_values[$delta]['query'])) {
           $uri['options']['query'] = $link_values[$delta]['query'];
         }
       }
