@@ -162,7 +162,7 @@ function image_link_formatter_image_field_link_types($field, $instance) {
             $field_instance = field_info_instance($entity_type, $field_info['field_name'], $bundle);
             if ($field_instance) {
               // In this case, since it is impossible to determine the bundle
-			  // to which the field is attached, it is left for user to select.
+              // to which the field is attached, it is left for user to select.
               $link_types[$field_key] = "$field_instance[label] ($field_info[field_name])";
             }
           }
