@@ -38,7 +38,7 @@ function image_link_formatter_field_formatter_settings_form($field, $instance, $
     '#options' => $image_styles,
   );
 
-  $link_types = image_link_formatter_image_field_link_types($instance);
+  $link_types = image_link_formatter_image_field_link_types($field, $instance);
   $element['image_link'] = array(
     '#title' => t('Link image to'),
     '#type' => 'select',
@@ -71,7 +71,7 @@ function image_link_formatter_field_formatter_settings_summary($field, $instance
     $summary[] = t('Original image');
   }
 
-  $link_types = image_link_formatter_image_field_link_types($instance);
+  $link_types = image_link_formatter_image_field_link_types($field, $instance);
   // Display this setting only if image is linked.
   if (isset($link_types[$settings['image_link']])) {
     $summary[] = filter_xss_admin($link_types[$settings['image_link']]);
@@ -144,7 +144,7 @@ function image_link_formatter_field_formatter_view($entity_type, $entity, $field
 /**
  * Helper function to compute the list of possible link types.
  */
-function image_link_formatter_image_field_link_types($instance) {
+function image_link_formatter_image_field_link_types($field, $instance) {
   $link_types = array(
     'content' => t('Content'),
     'file' => t('File'),
@@ -152,9 +152,27 @@ function image_link_formatter_image_field_link_types($instance) {
   // If the link module is installed, also allow any link fields to be used.
   foreach (field_info_fields() as $field_key => $field_info) {
     if ($field_info['type'] == 'link_field') {
-      $field_instance = field_info_instance($instance['entity_type'], $field_info['field_name'], $instance['bundle']);
-      if ($field_instance) {
-        $link_types[$field_key] = "$field_instance[label] ($field_info[field_name])";
+      if ($instance['bundle'] == 'ctools') {
+        // Since ctools will fake an instance of a field when displaying a
+        // field-element (see ctools/include/field.inc).
+        foreach ($field['bundles'] as $entity_type => $bundles) {
+          // Attempt to get all link fields instances for the corresponding
+          // bundles to which the image field is attached.
+          foreach ($bundles as $bundle) {
+            $field_instance = field_info_instance($entity_type, $field_info['field_name'], $bundle);
+            if ($field_instance) {
+              // In this case, since it is impossible to determine the bundle
+			  // to which the field is attached, it is left for user to select.
+              $link_types[$field_key] = "$field_instance[label] ($field_info[field_name])";
+            }
+          }
+        }
+      }
+      else {
+        $field_instance = field_info_instance($instance['entity_type'], $field_info['field_name'], $instance['bundle']);
+        if ($field_instance) {
+          $link_types[$field_key] = "$field_instance[label] ($field_info[field_name])";
+        }
       }
     }
   }
