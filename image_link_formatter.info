@@ -3,4 +3,5 @@ description = Provides an additional formatter for image core field, to be combi
 core = 7.x
 dependencies[] = link
 dependencies[] = image
+files[] = image_link_formatter.test
 package = Fields
